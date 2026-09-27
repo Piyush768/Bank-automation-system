@@ -1,0 +1,25 @@
+# Guardrail policy for the automation (discovery AND replay).
+# Anything not explicitly allowed is denied.
+
+[allow]
+allowed_hosts = ["127.0.0.1", "localhost"]
+allowed_path_prefixes = ["/"]
+# The harness endpoints exist only for fault injection in tests/demo; the
+# agent itself must never touch them.
+denied_path_prefixes = ["/_harness"]
+allowed_actions = ["navigate", "click", "fill", "select", "press", "extract"]
+
+[risk]
+# Regexes matched (lowercased) against the text of the control that commits
+# the action: button value, link text, or the submit control of a form.
+irreversible_patterns = [
+  "post transfer", "\\bpost\\b", "wire", "disburse", "close account",
+  "delete", "approve", "submit payment", "charge.?off",
+]
+reversible_patterns = ["\\bsave\\b", "\\bupdate\\b", "add note"]
+
+[handling]
+# block | require_approval | flag
+# require_approval: pause and escalate to a human for an explicit, single-use
+# approval before the action is executed (dual control).
+irreversible = "require_approval"

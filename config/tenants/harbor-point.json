@@ -1,0 +1,7 @@
+{
+  "tenant_id": "harbor-point-cu",
+  "base_url": "http://127.0.0.1:8600",
+  "vendor_app": "coreline-teller",
+  "app_version": "4.2",
+  "text_overrides": {}
+}

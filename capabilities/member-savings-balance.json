@@ -1,0 +1,393 @@
+{
+  "schema": "cua.capability/v1",
+  "id": "member-savings-balance",
+  "version": "1.0.0",
+  "title": "Member primary savings balance inquiry",
+  "description": "Capability discovered from goal: Look up member {{params.member_id}} and read their current primary savings balance",
+  "app": {
+    "vendor_app": "coreline-teller",
+    "app_version": "4.2",
+    "profile": "coreline-teller@1",
+    "surface": "web"
+  },
+  "entry_path": "/signon",
+  "inputs": [
+    {
+      "name": "member_id",
+      "type": "string",
+      "pattern": "^\\d{5}$",
+      "description": "5-digit identifier (pattern inferred from one example)",
+      "inferred": true
+    }
+  ],
+  "secrets": [
+    {
+      "name": "password",
+      "description": "Injected at runtime from the secret store; never persisted."
+    },
+    {
+      "name": "username",
+      "description": "Injected at runtime from the secret store; never persisted."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "primary_savings_balance",
+      "type": "currency",
+      "description": "Read from value in column \"BALANCE\" of the row containing \"PRIMARY SAVINGS\"",
+      "source": {
+        "description": "value in column \"BALANCE\" of the row containing \"PRIMARY SAVINGS\"",
+        "control": "text",
+        "strategies": [
+          {
+            "kind": "table_cell",
+            "row_contains": "PRIMARY SAVINGS",
+            "column": "BALANCE",
+            "control": "text"
+          },
+          {
+            "kind": "label",
+            "label": "PRIMARY SAVINGS",
+            "relation": "right_of",
+            "control": "text"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > table:nth-of-type(2) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(3)",
+            "control": "text"
+          },
+          {
+            "kind": "coords",
+            "x": 304.7,
+            "y": 207.0,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "text"
+          }
+        ]
+      }
+    }
+  ],
+  "expected_outcomes": [
+    {
+      "code": "MEMBER_NOT_FOUND",
+      "description": "No member exists with that member number."
+    },
+    {
+      "code": "INVALID_MEMBER_NUMBER",
+      "description": "The host rejected the member number format."
+    },
+    {
+      "code": "ACCESS_DENIED",
+      "description": "This session is not permitted to view the requested record."
+    }
+  ],
+  "steps": [
+    {
+      "id": "s00-open-entry",
+      "action": "navigate",
+      "intent": "Open the application entry screen",
+      "url_path": "/signon",
+      "risk": "safe",
+      "expect": [],
+      "origin": "model"
+    },
+    {
+      "id": "s01-fill-text-field-next-to-user-id",
+      "action": "fill",
+      "intent": "Type {{secrets.username}} into the text field next to \"USER ID\"",
+      "target": {
+        "description": "text field next to \"USER ID\"",
+        "control": "input",
+        "strategies": [
+          {
+            "kind": "label",
+            "label": "USER ID",
+            "relation": "right_of",
+            "control": "input"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "input"
+          },
+          {
+            "kind": "coords",
+            "x": 148.9,
+            "y": 67.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "input"
+          }
+        ]
+      },
+      "value": "{{secrets.username}}",
+      "risk": "safe",
+      "expect": [],
+      "origin": "model"
+    },
+    {
+      "id": "s02-fill-password-field-next-to-password",
+      "action": "fill",
+      "intent": "Type {{secrets.password}} into the password field next to \"PASSWORD\"",
+      "target": {
+        "description": "password field next to \"PASSWORD\"",
+        "control": "input",
+        "strategies": [
+          {
+            "kind": "label",
+            "label": "PASSWORD",
+            "relation": "right_of",
+            "control": "input"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "input"
+          },
+          {
+            "kind": "coords",
+            "x": 148.9,
+            "y": 98.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "input"
+          }
+        ]
+      },
+      "value": "{{secrets.password}}",
+      "risk": "safe",
+      "expect": [],
+      "origin": "model"
+    },
+    {
+      "id": "s03-click-sign-on-input",
+      "action": "click",
+      "intent": "Click \"SIGN ON\" (input)",
+      "target": {
+        "description": "\"SIGN ON\" (input)",
+        "control": "clickable",
+        "strategies": [
+          {
+            "kind": "text",
+            "text": "SIGN ON",
+            "control": "clickable"
+          },
+          {
+            "kind": "role",
+            "role": "button",
+            "name": "SIGN ON"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "clickable"
+          },
+          {
+            "kind": "coords",
+            "x": 124.6,
+            "y": 129.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "clickable"
+          }
+        ]
+      },
+      "risk": "safe",
+      "expect": [
+        {
+          "kind": "text_present",
+          "value": "MAIN MENU",
+          "source": "model_verified"
+        }
+      ],
+      "origin": "model"
+    },
+    {
+      "id": "s04-click-member-inquiry-a",
+      "action": "click",
+      "intent": "Click \"Member Inquiry\" (a)",
+      "target": {
+        "description": "\"Member Inquiry\" (a)",
+        "control": "clickable",
+        "strategies": [
+          {
+            "kind": "text",
+            "text": "Member Inquiry",
+            "control": "clickable"
+          },
+          {
+            "kind": "role",
+            "role": "link",
+            "name": "Member Inquiry"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2) > a:nth-of-type(1)",
+            "control": "clickable"
+          },
+          {
+            "kind": "coords",
+            "x": 109.4,
+            "y": 65.0,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "clickable"
+          }
+        ]
+      },
+      "risk": "safe",
+      "expect": [
+        {
+          "kind": "text_present",
+          "value": "MEMBER INQUIRY",
+          "source": "model_verified"
+        }
+      ],
+      "origin": "model"
+    },
+    {
+      "id": "s05-fill-text-field-next-to-member-number",
+      "action": "fill",
+      "intent": "Type {{params.member_id}} into the text field next to \"Member Number:\"",
+      "target": {
+        "description": "text field next to \"Member Number:\"",
+        "control": "input",
+        "strategies": [
+          {
+            "kind": "label",
+            "label": "Member Number:",
+            "relation": "right_of",
+            "control": "input"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "input"
+          },
+          {
+            "kind": "coords",
+            "x": 187.7,
+            "y": 67.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "input"
+          }
+        ]
+      },
+      "value": "{{params.member_id}}",
+      "risk": "safe",
+      "expect": [],
+      "origin": "model"
+    },
+    {
+      "id": "s06-click-inquire-span-no-button-role",
+      "action": "click",
+      "intent": "Click \"INQUIRE\" (span, no button role)",
+      "target": {
+        "description": "\"INQUIRE\" (span, no button role)",
+        "control": "clickable",
+        "strategies": [
+          {
+            "kind": "text",
+            "text": "INQUIRE",
+            "control": "clickable"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2) > span:nth-of-type(1)",
+            "control": "clickable"
+          },
+          {
+            "kind": "coords",
+            "x": 180.8,
+            "y": 97.0,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "clickable"
+          }
+        ]
+      },
+      "risk": "safe",
+      "expect": [
+        {
+          "kind": "text_present",
+          "value": "INQUIRY RESULTS",
+          "source": "observed_landmark"
+        }
+      ],
+      "origin": "model"
+    },
+    {
+      "id": "s07-click-link-control-in-column-name-of-the",
+      "action": "click",
+      "intent": "Click link/control in column \"NAME\" of the row containing \"{{params.member_id}}\"",
+      "target": {
+        "description": "link/control in column \"NAME\" of the row containing \"{{params.member_id}}\"",
+        "control": "clickable",
+        "strategies": [
+          {
+            "kind": "table_cell",
+            "row_contains": "{{params.member_id}}",
+            "column": "NAME",
+            "control": "clickable"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2) > a:nth-of-type(1)",
+            "control": "clickable"
+          },
+          {
+            "kind": "coords",
+            "x": 152.6,
+            "y": 106.0,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "clickable"
+          }
+        ]
+      },
+      "risk": "safe",
+      "expect": [
+        {
+          "kind": "text_present",
+          "value": "MEMBER INQUIRY - DETAIL",
+          "source": "observed_landmark"
+        }
+      ],
+      "origin": "model"
+    }
+  ],
+  "success": [
+    {
+      "kind": "text_present",
+      "value": "MEMBER INQUIRY - DETAIL",
+      "source": "observed_landmark"
+    }
+  ],
+  "guardrails": {
+    "allowed_actions": [
+      "click",
+      "extract",
+      "fill",
+      "navigate"
+    ],
+    "max_risk": "safe",
+    "irreversible_requires_approval": true
+  },
+  "provenance": {
+    "discovery_run_id": "discovery-20260927T231956-62c6",
+    "discovered_at": "2026-09-27T23:20:18.939265Z",
+    "provider": "anthropic",
+    "model": "claude-sonnet-5",
+    "goal": "Look up member {{params.member_id}} and read their current primary savings balance",
+    "compiler_version": "cua-compiler/0.1",
+    "operator_assisted": false,
+    "discovery_tenant": "harbor-point-cu"
+  },
+  "review": {
+    "status": "draft",
+    "notes": ""
+  },
+  "content_hash": "sha256:ef96155b68bf58cd"
+}

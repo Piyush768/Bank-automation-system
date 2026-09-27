@@ -1,0 +1,128 @@
+{
+  "run_id": "replay-20260927T232033-3b7c",
+  "capability_id": "member-savings-balance",
+  "capability_version": "1.0.0",
+  "capability_hash": "sha256:ef96155b68bf58cd",
+  "status": "success",
+  "outputs": {
+    "primary_savings_balance": "14250.80"
+  },
+  "outcome": null,
+  "failure": null,
+  "recoveries": [
+    {
+      "code": "SYSTEM_NOTICE",
+      "at_step": "s03-click-sign-on-input",
+      "action": "clicked CONTINUE"
+    },
+    {
+      "code": "SESSION_EXPIRED",
+      "at_step": "s06-click-inquire-span-no-button-role",
+      "action": "restart flow from sign-on"
+    }
+  ],
+  "escalations": [],
+  "locators": [
+    {
+      "step_id": "s01-fill-text-field-next-to-user-id",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s02-fill-password-field-next-to-password",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s03-click-sign-on-input",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s04-click-member-inquiry-a",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s05-fill-text-field-next-to-member-number",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s06-click-inquire-span-no-button-role",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s01-fill-text-field-next-to-user-id",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s02-fill-password-field-next-to-password",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s03-click-sign-on-input",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s04-click-member-inquiry-a",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s05-fill-text-field-next-to-member-number",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s06-click-inquire-span-no-button-role",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s07-click-link-control-in-column-name-of-the",
+      "strategy": "table_cell",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "output:primary_savings_balance",
+      "strategy": "table_cell",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    }
+  ],
+  "human_assisted": false,
+  "duration_ms": 13219,
+  "evidence_dir": "/home/claude/cua-bank-automation/evidence/07-replay-recoverable-conditions"
+}

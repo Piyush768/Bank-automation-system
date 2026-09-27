@@ -1,0 +1,96 @@
+{
+  "run_id": "replay-20260927T232108-7f6f",
+  "capability_id": "member-savings-balance",
+  "capability_version": "1.0.0",
+  "capability_hash": "sha256:ef96155b68bf58cd",
+  "status": "failed",
+  "outputs": {},
+  "outcome": null,
+  "failure": {
+    "code": "CHECKPOINT_FAILED",
+    "message": "expected state not reached",
+    "at_step": "s07-click-link-control-in-column-name-of-the",
+    "step_intent": "Click link/control in column \"NAME\" of the row containing \"{{params.member_id}}\"",
+    "expected": [
+      {
+        "kind": "text_present",
+        "value": "MEMBER INQUIRY - DETAIL"
+      }
+    ],
+    "observed": {
+      "url": "http://127.0.0.1:8601/mbr?id=20318",
+      "landmarks": [
+        "CORELINE TELLER 4.2 | LAKESHORE FEDERAL CU",
+        "ACCOUNT HOLDER - DETAIL",
+        "20318"
+      ]
+    },
+    "url": "http://127.0.0.1:8601/mbr?id=20318",
+    "screenshot": "screens/028-stuck-s07-click-link-control-in-column-name-of-the.png",
+    "dom_snapshot": "dom/028-stuck-s07-click-link-control-in-column-name-of-the.html",
+    "retryable": false
+  },
+  "recoveries": [],
+  "escalations": [],
+  "locators": [
+    {
+      "step_id": "s01-fill-text-field-next-to-user-id",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s02-fill-password-field-next-to-password",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s03-click-sign-on-input",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s04-click-member-inquiry-a",
+      "strategy": "css",
+      "rank": 2,
+      "degraded": true,
+      "misses": [
+        "text: not found",
+        "role: not found"
+      ]
+    },
+    {
+      "step_id": "s05-fill-text-field-next-to-member-number",
+      "strategy": "css",
+      "rank": 1,
+      "degraded": true,
+      "misses": [
+        "label: not found"
+      ]
+    },
+    {
+      "step_id": "s06-click-inquire-span-no-button-role",
+      "strategy": "css",
+      "rank": 1,
+      "degraded": true,
+      "misses": [
+        "text: not found"
+      ]
+    },
+    {
+      "step_id": "s07-click-link-control-in-column-name-of-the",
+      "strategy": "table_cell",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    }
+  ],
+  "human_assisted": false,
+  "duration_ms": 9342,
+  "evidence_dir": "/home/claude/cua-bank-automation/evidence/11-replay-hard-failure-drift"
+}

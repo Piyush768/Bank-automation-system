@@ -1,0 +1,53 @@
+{
+  "profile": "coreline-teller@1",
+  "vendor_app": "coreline-teller",
+  "app_version": "4.2",
+  "notes": "Condition catalog for the vendor product. Shared by every tenant running it and by every capability recorded on it: error screens are a property of the app, not of one flow.",
+  "conditions": [
+    {
+      "code": "MEMBER_NOT_FOUND",
+      "class": "business",
+      "match": "E-404 NO MEMBER ON FILE",
+      "message": "No member exists with that member number."
+    },
+    {
+      "code": "INVALID_MEMBER_NUMBER",
+      "class": "business",
+      "match": "E-102 INVALID MEMBER NUMBER",
+      "message": "The host rejected the member number format."
+    },
+    {
+      "code": "ACCESS_DENIED",
+      "class": "business",
+      "match": "E-403 ACCESS DENIED",
+      "message": "This session is not permitted to view the requested record."
+    },
+    {
+      "code": "SYSTEM_NOTICE",
+      "class": "recoverable",
+      "match": "SYSTEM NOTICE",
+      "recovery": {"type": "click_text", "text": "CONTINUE"},
+      "message": "Informational interstitial after sign-on; dismiss and continue."
+    },
+    {
+      "code": "SESSION_EXPIRED",
+      "class": "recoverable",
+      "match": "SESSION EXPIRED",
+      "recovery": {"type": "restart_flow", "max": 1},
+      "message": "Host session timed out; sign on again and restart (only if nothing irreversible ran)."
+    },
+    {
+      "code": "HOST_ABEND",
+      "class": "recoverable",
+      "match": "ABEND|SYSTEM ERROR",
+      "recovery": {"type": "restart_flow", "max": 1},
+      "message": "Transient host error; retry the flow once, then fail."
+    },
+    {
+      "code": "SIGNON_REJECTED",
+      "class": "fatal",
+      "match": "E-001 INVALID USER ID",
+      "message": "Credentials rejected. Never retried: retries risk locking the service account."
+    }
+  ]
+}

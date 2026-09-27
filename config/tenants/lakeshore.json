@@ -1,0 +1,14 @@
+{
+  "tenant_id": "lakeshore-fcu",
+  "base_url": "http://127.0.0.1:8601",
+  "vendor_app": "coreline-teller",
+  "app_version": "4.2",
+  "notes": "Same vendor product, configured differently: renamed menu item, field label, search button, detail title and balance column. One overlay instead of a re-recording.",
+  "text_overrides": {
+    "Member Inquiry": "Account Holder Lookup",
+    "Member Number:": "Acct Holder #:",
+    "INQUIRE": "SEARCH",
+    "MEMBER INQUIRY - DETAIL": "ACCOUNT HOLDER - DETAIL",
+    "BALANCE": "CUR BAL"
+  }
+}

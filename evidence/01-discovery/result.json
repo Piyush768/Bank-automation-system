@@ -15,6 +15,6 @@
   },
   "operator_assisted": false,
   "blocked_requests": [],
-  "artifact": "/home/claude/cua-bank-automation/capabilities/member-savings-balance.json",
+  "artifact": "capabilities/member-savings-balance.json",
   "content_hash": "sha256:ef96155b68bf58cd"
 }

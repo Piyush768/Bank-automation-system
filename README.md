@@ -200,7 +200,7 @@ Fault-injection switches (mock app only; the agent's policy denies `/_harness`):
 ## Tests and offline replay
 
 - **Replay needs no LLM key.** It is the production path.
-- **Tests run fully offline:** `pytest` (38 tests, about 2 min, real headless browser against the mock app). They use `ScriptedProvider`, a clearly-marked **test-only** stand-in for the model, so the discovery loop, compiler and replay can be tested deterministically. It is never used for `evidence/`: the demo refuses to write evidence with it, and anything it produces is stamped `provider: scripted-test`.
+- **Tests run fully offline:** `python -m pytest` (38 tests, about 2 min, real headless browser against the mock app). They use `ScriptedProvider`, a clearly-marked **test-only** stand-in for the model, so the discovery loop, compiler and replay can be tested deterministically. It is never used for `evidence/`: the demo refuses to write evidence with it, and anything it produces is stamped `provider: scripted-test`.
 
 ## Project structure
 

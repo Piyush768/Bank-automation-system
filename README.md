@@ -106,7 +106,7 @@ pip install -e ".[dev]"
 playwright install chromium
 
 cp .env.example .env
-# edit .env: set ANTHROPIC_API_KEY, OPENAI_API_KEY or GROQ_API_KEY. Optional: LLM_PROVIDER=anthropic|openai|groq
+# edit .env: set ANTHROPIC_API_KEY. Optional: LLM_PROVIDER=anthropic
 ```
 
 `.env` is git-ignored. Keys are read from the environment only and are also redacted from every log. `BANK_USERNAME` / `BANK_PASSWORD` in `.env` are the **fake** credentials of the local mock app. The model never sees them, only `{{secrets.username}}` / `{{secrets.password}}`.

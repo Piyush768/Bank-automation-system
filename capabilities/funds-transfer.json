@@ -1,0 +1,464 @@
+{
+  "schema": "cua.capability/v1",
+  "id": "funds-transfer",
+  "version": "1.0.0",
+  "title": "Internal funds transfer (dual control)",
+  "description": "Capability discovered from goal: Transfer {{params.amount}} from account {{params.from_account}} to account {{params.to_account}}, post it, and return the confirmation number shown after posting",
+  "app": {
+    "vendor_app": "coreline-teller",
+    "app_version": "4.2",
+    "profile": "coreline-teller@1",
+    "surface": "web"
+  },
+  "entry_path": "/signon",
+  "inputs": [
+    {
+      "name": "from_account",
+      "type": "string",
+      "description": "free text (inferred)",
+      "inferred": true
+    },
+    {
+      "name": "to_account",
+      "type": "string",
+      "description": "free text (inferred)",
+      "inferred": true
+    },
+    {
+      "name": "amount",
+      "type": "number",
+      "description": "numeric (inferred)",
+      "inferred": true
+    }
+  ],
+  "secrets": [
+    {
+      "name": "password",
+      "description": "Injected at runtime from the secret store; never persisted."
+    },
+    {
+      "name": "username",
+      "description": "Injected at runtime from the secret store; never persisted."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "confirmation_number",
+      "type": "string",
+      "description": "Read from text at recorded position",
+      "source": {
+        "description": "text at recorded position",
+        "control": "text",
+        "strategies": [
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1)",
+            "control": "text"
+          },
+          {
+            "kind": "coords",
+            "x": 388.0,
+            "y": 60.0,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "text"
+          }
+        ]
+      }
+    }
+  ],
+  "expected_outcomes": [
+    {
+      "code": "MEMBER_NOT_FOUND",
+      "description": "No member exists with that member number."
+    },
+    {
+      "code": "INVALID_MEMBER_NUMBER",
+      "description": "The host rejected the member number format."
+    },
+    {
+      "code": "ACCESS_DENIED",
+      "description": "This session is not permitted to view the requested record."
+    }
+  ],
+  "steps": [
+    {
+      "id": "s00-open-entry",
+      "action": "navigate",
+      "intent": "Open the application entry screen",
+      "url_path": "/signon",
+      "risk": "safe",
+      "expect": [],
+      "origin": "model"
+    },
+    {
+      "id": "s01-fill-text-field-next-to-user-id",
+      "action": "fill",
+      "intent": "Type {{secrets.username}} into the text field next to \"USER ID\"",
+      "target": {
+        "description": "text field next to \"USER ID\"",
+        "control": "input",
+        "strategies": [
+          {
+            "kind": "label",
+            "label": "USER ID",
+            "relation": "right_of",
+            "control": "input"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "input"
+          },
+          {
+            "kind": "coords",
+            "x": 148.9,
+            "y": 67.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "input"
+          }
+        ]
+      },
+      "value": "{{secrets.username}}",
+      "risk": "safe",
+      "expect": [],
+      "origin": "model"
+    },
+    {
+      "id": "s02-fill-password-field-next-to-password",
+      "action": "fill",
+      "intent": "Type {{secrets.password}} into the password field next to \"PASSWORD\"",
+      "target": {
+        "description": "password field next to \"PASSWORD\"",
+        "control": "input",
+        "strategies": [
+          {
+            "kind": "label",
+            "label": "PASSWORD",
+            "relation": "right_of",
+            "control": "input"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "input"
+          },
+          {
+            "kind": "coords",
+            "x": 148.9,
+            "y": 98.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "input"
+          }
+        ]
+      },
+      "value": "{{secrets.password}}",
+      "risk": "safe",
+      "expect": [],
+      "origin": "model"
+    },
+    {
+      "id": "s03-click-sign-on-input",
+      "action": "click",
+      "intent": "Click \"SIGN ON\" (input)",
+      "target": {
+        "description": "\"SIGN ON\" (input)",
+        "control": "clickable",
+        "strategies": [
+          {
+            "kind": "text",
+            "text": "SIGN ON",
+            "control": "clickable"
+          },
+          {
+            "kind": "role",
+            "role": "button",
+            "name": "SIGN ON"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "clickable"
+          },
+          {
+            "kind": "coords",
+            "x": 124.6,
+            "y": 129.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "clickable"
+          }
+        ]
+      },
+      "risk": "safe",
+      "expect": [
+        {
+          "kind": "text_present",
+          "value": "MAIN MENU",
+          "source": "model_verified"
+        }
+      ],
+      "origin": "model"
+    },
+    {
+      "id": "s04-click-funds-transfer-a",
+      "action": "click",
+      "intent": "Click \"Funds Transfer\" (a)",
+      "target": {
+        "description": "\"Funds Transfer\" (a)",
+        "control": "clickable",
+        "strategies": [
+          {
+            "kind": "text",
+            "text": "Funds Transfer",
+            "control": "clickable"
+          },
+          {
+            "kind": "role",
+            "role": "link",
+            "name": "Funds Transfer"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2) > a:nth-of-type(1)",
+            "control": "clickable"
+          },
+          {
+            "kind": "coords",
+            "x": 109.4,
+            "y": 91.0,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "clickable"
+          }
+        ]
+      },
+      "risk": "safe",
+      "expect": [
+        {
+          "kind": "text_present",
+          "value": "FUNDS TRANSFER",
+          "source": "model_verified"
+        }
+      ],
+      "origin": "model"
+    },
+    {
+      "id": "s05-fill-text-field-next-to-from-mbr-sfx",
+      "action": "fill",
+      "intent": "Type {{params.from_account}} into the text field next to \"FROM MBR/SFX\"",
+      "target": {
+        "description": "text field next to \"FROM MBR/SFX\"",
+        "control": "input",
+        "strategies": [
+          {
+            "kind": "label",
+            "label": "FROM MBR/SFX",
+            "relation": "right_of",
+            "control": "input"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "input"
+          },
+          {
+            "kind": "coords",
+            "x": 193.7,
+            "y": 67.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "input"
+          }
+        ]
+      },
+      "value": "{{params.from_account}}",
+      "risk": "safe",
+      "expect": [],
+      "origin": "model"
+    },
+    {
+      "id": "s06-fill-text-field-next-to-to-mbr-sfx",
+      "action": "fill",
+      "intent": "Type {{params.to_account}} into the text field next to \"TO MBR/SFX\"",
+      "target": {
+        "description": "text field next to \"TO MBR/SFX\"",
+        "control": "input",
+        "strategies": [
+          {
+            "kind": "label",
+            "label": "TO MBR/SFX",
+            "relation": "right_of",
+            "control": "input"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "input"
+          },
+          {
+            "kind": "coords",
+            "x": 193.7,
+            "y": 98.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "input"
+          }
+        ]
+      },
+      "value": "{{params.to_account}}",
+      "risk": "safe",
+      "expect": [],
+      "origin": "model"
+    },
+    {
+      "id": "s07-fill-text-field-next-to-amount",
+      "action": "fill",
+      "intent": "Type {{params.amount}} into the text field next to \"AMOUNT\"",
+      "target": {
+        "description": "text field next to \"AMOUNT\"",
+        "control": "input",
+        "strategies": [
+          {
+            "kind": "label",
+            "label": "AMOUNT",
+            "relation": "right_of",
+            "control": "input"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "input"
+          },
+          {
+            "kind": "coords",
+            "x": 193.7,
+            "y": 129.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "input"
+          }
+        ]
+      },
+      "value": "{{params.amount}}",
+      "risk": "safe",
+      "expect": [],
+      "origin": "model"
+    },
+    {
+      "id": "s08-click-review-input",
+      "action": "click",
+      "intent": "Click \"REVIEW\" (input)",
+      "target": {
+        "description": "\"REVIEW\" (input)",
+        "control": "clickable",
+        "strategies": [
+          {
+            "kind": "text",
+            "text": "REVIEW",
+            "control": "clickable"
+          },
+          {
+            "kind": "role",
+            "role": "button",
+            "name": "REVIEW"
+          },
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(4) > td:nth-of-type(2) > input:nth-of-type(1)",
+            "control": "clickable"
+          },
+          {
+            "kind": "coords",
+            "x": 175.5,
+            "y": 160.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "clickable"
+          }
+        ]
+      },
+      "risk": "safe",
+      "expect": [
+        {
+          "kind": "text_present",
+          "value": "CONFIRM TRANSFER",
+          "source": "observed_landmark"
+        }
+      ],
+      "origin": "model"
+    },
+    {
+      "id": "s09-click-post-transfer-input",
+      "action": "click",
+      "intent": "Click \"POST TRANSFER\" (input)",
+      "target": {
+        "description": "\"POST TRANSFER\" (input)",
+        "control": "clickable",
+        "strategies": [
+          {
+            "kind": "css",
+            "selector": "body:nth-of-type(1) > table:nth-of-type(1) > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(1) > form:nth-of-type(1) > input:nth-of-type(4)",
+            "control": "clickable"
+          },
+          {
+            "kind": "coords",
+            "x": 73.7,
+            "y": 165.5,
+            "viewport_w": 1280,
+            "viewport_h": 900,
+            "control": "clickable"
+          }
+        ]
+      },
+      "risk": "irreversible",
+      "expect": [
+        {
+          "kind": "text_present",
+          "value": "CONFIRMATION",
+          "source": "model_verified"
+        },
+        {
+          "kind": "text_present",
+          "value": "TRANSFER POSTED",
+          "source": "observed_landmark"
+        }
+      ],
+      "origin": "model"
+    }
+  ],
+  "success": [
+    {
+      "kind": "text_present",
+      "value": "TRANSFER POSTED",
+      "source": "observed_landmark"
+    }
+  ],
+  "guardrails": {
+    "allowed_actions": [
+      "click",
+      "extract",
+      "fill",
+      "navigate"
+    ],
+    "max_risk": "irreversible",
+    "irreversible_requires_approval": true
+  },
+  "provenance": {
+    "discovery_run_id": "discovery-20260928T005732-f52c",
+    "discovered_at": "2026-09-28T00:57:57.127389Z",
+    "provider": "anthropic",
+    "model": "claude-sonnet-5",
+    "goal": "Transfer {{params.amount}} from account {{params.from_account}} to account {{params.to_account}}, post it, and return the confirmation number shown after posting",
+    "compiler_version": "cua-compiler/0.1",
+    "operator_assisted": true,
+    "discovery_tenant": "harbor-point-cu"
+  },
+  "review": {
+    "status": "draft",
+    "notes": "Operator intervened during discovery; their actions are in the discovery log and were NOT compiled into steps. Review before approval."
+  },
+  "content_hash": "sha256:0123a6e0549e2059"
+}

@@ -37,6 +37,9 @@ class AppServer:
     def reset(self) -> None:
         httpx.post(self.base_url + "/_harness/reset").raise_for_status()
 
+    def transfers(self) -> list:
+        return httpx.get(self.base_url + "/_harness/transfers").json()
+
     def stop(self) -> None:
         self._server.should_exit = True
         self._thread.join(timeout=5)

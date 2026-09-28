@@ -376,8 +376,8 @@
     "irreversible_requires_approval": true
   },
   "provenance": {
-    "discovery_run_id": "discovery-20260927T231956-62c6",
-    "discovered_at": "2026-09-27T23:20:18.939265Z",
+    "discovery_run_id": "discovery-20260928T005610-ae91",
+    "discovered_at": "2026-09-28T00:56:33.011987Z",
     "provider": "anthropic",
     "model": "claude-sonnet-5",
     "goal": "Look up member {{params.member_id}} and read their current primary savings balance",
@@ -389,5 +389,5 @@
     "status": "draft",
     "notes": ""
   },
-  "content_hash": "sha256:ef96155b68bf58cd"
+  "content_hash": "sha256:7c41e37671905e32"
 }

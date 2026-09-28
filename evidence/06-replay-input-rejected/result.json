@@ -1,8 +1,8 @@
 {
-  "run_id": "replay-20260927T232033-a752",
+  "run_id": "replay-20260928T005647-073a",
   "capability_id": "member-savings-balance",
   "capability_version": "1.0.0",
-  "capability_hash": "sha256:ef96155b68bf58cd",
+  "capability_hash": "sha256:7c41e37671905e32",
   "status": "failed",
   "outputs": {},
   "outcome": null,
@@ -23,5 +23,5 @@
   "locators": [],
   "human_assisted": false,
   "duration_ms": 0,
-  "evidence_dir": "/home/claude/cua-bank-automation/evidence/06-replay-input-rejected"
+  "evidence_dir": "evidence/06-replay-input-rejected"
 }

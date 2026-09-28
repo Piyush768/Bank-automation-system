@@ -1,8 +1,8 @@
 {
-  "run_id": "replay-20260927T232053-3ff5",
+  "run_id": "replay-20260928T005707-478e",
   "capability_id": "member-savings-balance",
   "capability_version": "1.0.0",
-  "capability_hash": "sha256:ef96155b68bf58cd",
+  "capability_hash": "sha256:7c41e37671905e32",
   "status": "success",
   "outputs": {
     "primary_savings_balance": "14250.80"
@@ -12,7 +12,7 @@
   "recoveries": [],
   "escalations": [
     {
-      "intervention_id": "iv-ff0334ea",
+      "intervention_id": "iv-c0174e65",
       "kind": "unknown_state",
       "reason": "CHECKPOINT_FAILED: expected state not reached",
       "at_step": "s07-click-link-control-in-column-name-of-the",
@@ -20,7 +20,7 @@
       "operator": "operator-jdoe",
       "operator_actions": [
         {
-          "t": "16:21:03",
+          "t": "17:57:17",
           "source": "console",
           "action": "fill",
           "label": "OVERRIDE CODE",
@@ -28,7 +28,7 @@
           "ok": true
         },
         {
-          "t": "16:21:03",
+          "t": "17:57:17",
           "source": "live_page",
           "kind": "input",
           "target": {
@@ -40,7 +40,7 @@
           "value_len": 4
         },
         {
-          "t": "16:21:03",
+          "t": "17:57:17",
           "source": "live_page",
           "kind": "click",
           "target": {
@@ -51,7 +51,7 @@
           }
         },
         {
-          "t": "16:21:04",
+          "t": "17:57:18",
           "source": "console",
           "action": "click",
           "text": "ACKNOWLEDGE",
@@ -119,6 +119,6 @@
     }
   ],
   "human_assisted": true,
-  "duration_ms": 10279,
-  "evidence_dir": "/home/claude/cua-bank-automation/evidence/09-replay-escalation-live-handoff"
+  "duration_ms": 10153,
+  "evidence_dir": "evidence/09-replay-escalation-live-handoff"
 }

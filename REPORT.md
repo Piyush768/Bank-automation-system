@@ -131,7 +131,7 @@ Automation **never trusts** the handback: it re-verifies the step's checkpoints 
 - `reversible`: save, update
 - `irreversible`: post, wire, delete, approve
 
-Typing never commits, so it is always safe. Irreversible actions need a **single-use human approval** in both discovery and replay. I chose approval over blocking because blocking makes the system useless for real work, while flagging alone is too weak for money movement. Replay **re-classifies from the live control's text**, so a tampered artifact or a tenant renaming a button can't downgrade risk. Without an operator channel, irreversible steps fail closed (`POLICY_BLOCKED`).
+Typing never commits, so it is always safe. Irreversible actions need a **single-use human approval** in both discovery and replay. I chose approval over blocking because blocking makes the system useless for real work, while flagging alone is too weak for money movement. Replay **re-classifies from the live control's text**, so a tampered artifact or a tenant renaming a button can't downgrade risk. Without an operator channel, irreversible steps fail closed (`POLICY_BLOCKED`). This is exercised live: the transfer capability was discovered by the model with the `POST TRANSFER` click paused for approval (evidence 12), and its replays show approve → posted once, deny → nothing posted, no operator → blocked (evidence 13–15).
 
 **Data handling.**
 - Credentials are secret *references*. The model never sees their values.

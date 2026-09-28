@@ -1,0 +1,106 @@
+{
+  "run_id": "replay-20260928T005757-cf4c",
+  "capability_id": "funds-transfer",
+  "capability_version": "1.0.0",
+  "capability_hash": "sha256:0123a6e0549e2059",
+  "status": "success",
+  "outputs": {
+    "confirmation_number": "CONFIRMATION NO. TX000001"
+  },
+  "outcome": null,
+  "failure": null,
+  "recoveries": [],
+  "escalations": [
+    {
+      "intervention_id": "iv-461ec55d",
+      "kind": "approval",
+      "reason": "irreversible step s09-click-post-transfer-input: 'POST TRANSFER'",
+      "at_step": "s09-click-post-transfer-input",
+      "resolution": "approve",
+      "operator": "supervisor-mlee",
+      "operator_actions": []
+    }
+  ],
+  "locators": [
+    {
+      "step_id": "s01-fill-text-field-next-to-user-id",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s02-fill-password-field-next-to-password",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s03-click-sign-on-input",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s04-click-funds-transfer-a",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s05-fill-text-field-next-to-from-mbr-sfx",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s06-fill-text-field-next-to-to-mbr-sfx",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s07-fill-text-field-next-to-amount",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s08-click-review-input",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s09-click-post-transfer-input",
+      "strategy": "css",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s09-click-post-transfer-input",
+      "strategy": "css",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "output:confirmation_number",
+      "strategy": "css",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    }
+  ],
+  "human_assisted": true,
+  "duration_ms": 3531,
+  "evidence_dir": "evidence/13-replay-transfer-approved"
+}

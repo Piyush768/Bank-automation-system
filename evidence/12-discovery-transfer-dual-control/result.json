@@ -1,0 +1,20 @@
+{
+  "run_id": "discovery-20260928T005732-f52c",
+  "status": "done",
+  "summary": "Transferred 25.00 from 10492-S01 to 10492-D10 and posted successfully. Confirmation number: TX000001",
+  "provider": "anthropic",
+  "model": "claude-sonnet-5",
+  "llm_calls": 11,
+  "tokens": {
+    "input": 25625,
+    "output": 1339
+  },
+  "steps": 11,
+  "outputs": {
+    "confirmation_number": "CONFIRMATION NO. TX000001"
+  },
+  "operator_assisted": true,
+  "blocked_requests": [],
+  "artifact": "capabilities/funds-transfer.json",
+  "content_hash": "sha256:0123a6e0549e2059"
+}

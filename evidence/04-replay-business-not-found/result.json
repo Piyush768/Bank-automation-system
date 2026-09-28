@@ -1,8 +1,8 @@
 {
-  "run_id": "replay-20260927T232026-fc79",
+  "run_id": "replay-20260928T005640-8ceb",
   "capability_id": "member-savings-balance",
   "capability_version": "1.0.0",
-  "capability_hash": "sha256:ef96155b68bf58cd",
+  "capability_hash": "sha256:7c41e37671905e32",
   "status": "business_outcome",
   "outputs": {},
   "outcome": {
@@ -58,6 +58,6 @@
     }
   ],
   "human_assisted": false,
-  "duration_ms": 2545,
-  "evidence_dir": "/home/claude/cua-bank-automation/evidence/04-replay-business-not-found"
+  "duration_ms": 2556,
+  "evidence_dir": "evidence/04-replay-business-not-found"
 }

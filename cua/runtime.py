@@ -16,7 +16,7 @@ from cua.agent.llm import LLMProvider, make_provider
 from cua.compiler import compile_trace, templatize
 from cua.escalation.console import ConsoleServer, ScriptedOperator
 from cua.escalation.control import ControlChannel
-from cua.evidence import Evidence
+from cua.evidence import Evidence, portable
 from cua.replay.engine import ReplayEngine
 from cua.safety.policy import Policy
 from cua.safety.redact import Redactor
@@ -106,9 +106,9 @@ def discover(*, goal: str, start_url: str, params: dict[str, str], capability_id
                                     description=f"Capability discovered from goal: {red.text(templatize(goal, params))}",
                                     profile=profile.raw, policy=policy, redactor=red, tenant_id=tenant_id)
                 cap.save(out_path)
-                summary["artifact"] = out_path
+                summary["artifact"] = portable(out_path)
                 summary["content_hash"] = cap.content_hash
-                ev.event("artifact_compiled", path=out_path, hash=cap.content_hash, steps=len(cap.steps),
+                ev.event("artifact_compiled", path=portable(out_path), hash=cap.content_hash, steps=len(cap.steps),
                          outputs=[o.name for o in cap.outputs])
             except Exception as e:
                 summary["compile_error"] = str(e)

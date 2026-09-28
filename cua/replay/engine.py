@@ -92,7 +92,7 @@ class ReplayEngine:
             self.red.add_secret(v)
         self._result = ReplayResult(
             run_id=self.ev.run_id, capability_id=cap.id, capability_version=cap.version,
-            capability_hash=cap.content_hash, status="failed", evidence_dir=self.ev.dir,
+            capability_hash=cap.content_hash, status="failed", evidence_dir=self.ev.display_dir,
         )
         self.ev.event("replay_start", capability=cap.id, version=cap.version, hash=cap.content_hash,
                       review=cap.review.status, params=params, base_url=base_url)

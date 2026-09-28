@@ -1,0 +1,91 @@
+{
+  "run_id": "replay-20260928T005806-2bc8",
+  "capability_id": "funds-transfer",
+  "capability_version": "1.0.0",
+  "capability_hash": "sha256:0123a6e0549e2059",
+  "status": "failed",
+  "outputs": {},
+  "outcome": null,
+  "failure": {
+    "code": "POLICY_BLOCKED",
+    "message": "irreversible step requires human approval and no operator channel is attached",
+    "at_step": "s09-click-post-transfer-input",
+    "step_intent": "Click \"POST TRANSFER\" (input)",
+    "expected": null,
+    "observed": null,
+    "url": "http://127.0.0.1:8600/xfer/review",
+    "screenshot": "screens/033-fail-POLICY_BLOCKED.png",
+    "dom_snapshot": "dom/033-fail-POLICY_BLOCKED.html",
+    "retryable": false
+  },
+  "recoveries": [],
+  "escalations": [],
+  "locators": [
+    {
+      "step_id": "s01-fill-text-field-next-to-user-id",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s02-fill-password-field-next-to-password",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s03-click-sign-on-input",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s04-click-funds-transfer-a",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s05-fill-text-field-next-to-from-mbr-sfx",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s06-fill-text-field-next-to-to-mbr-sfx",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s07-fill-text-field-next-to-amount",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s08-click-review-input",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s09-click-post-transfer-input",
+      "strategy": "css",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    }
+  ],
+  "human_assisted": false,
+  "duration_ms": 2656,
+  "evidence_dir": "evidence/15-replay-transfer-no-approver"
+}

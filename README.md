@@ -135,6 +135,14 @@ This starts two mock-app tenants (ports 8600/8601) and then:
 | 10 second tenant (renamed labels) | `success` via tenant overlay, no re-recording |
 | 11 second tenant **without** overlay | `failed`; degraded locators flagged, checkpoint refuses the wrong screen |
 
+3. **A second discovery (real LLM) on an irreversible flow**: *"Transfer 25.00 from 10492-S01 to 10492-D10, post it, and return the confirmation number"*. When the model reaches `POST TRANSFER`, policy pauses it and a human approver must approve on the live session (dual control). It writes `capabilities/funds-transfer.json` and `evidence/12-discovery-transfer-dual-control/`. Then the transfer artifact is replayed:
+
+| Scenario | Expected result |
+|---|---|
+| 13 approver approves | `success` with the confirmation number; exactly one transfer posted |
+| 14 approver denies | `failed` `APPROVAL_DENIED`; nothing posted |
+| 15 no operator attached | `failed` `POLICY_BLOCKED` (fails closed); nothing posted |
+
 `evidence/README.md` is regenerated with the actual results. To re-run only the replays against an existing artifact, use `cua demo --skip-discovery`.
 
 ## Run each stage manually
@@ -192,7 +200,7 @@ Fault-injection switches (mock app only; the agent's policy denies `/_harness`):
 ## Tests and offline replay
 
 - **Replay needs no LLM key.** It is the production path.
-- **Tests run fully offline:** `pytest` (37 tests, about 2 min, real headless browser against the mock app). They use `ScriptedProvider`, a clearly-marked **test-only** stand-in for the model, so the discovery loop, compiler and replay can be tested deterministically. It is never used for `evidence/`: the demo refuses to write evidence with it, and anything it produces is stamped `provider: scripted-test`.
+- **Tests run fully offline:** `pytest` (38 tests, about 2 min, real headless browser against the mock app). They use `ScriptedProvider`, a clearly-marked **test-only** stand-in for the model, so the discovery loop, compiler and replay can be tested deterministically. It is never used for `evidence/`: the demo refuses to write evidence with it, and anything it produces is stamped `provider: scripted-test`.
 
 ## Project structure
 

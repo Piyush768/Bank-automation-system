@@ -1,0 +1,101 @@
+{
+  "run_id": "replay-20260928T005802-4e42",
+  "capability_id": "funds-transfer",
+  "capability_version": "1.0.0",
+  "capability_hash": "sha256:0123a6e0549e2059",
+  "status": "failed",
+  "outputs": {},
+  "outcome": null,
+  "failure": {
+    "code": "APPROVAL_DENIED",
+    "message": "approver chose 'deny': Amount not authorised for this member",
+    "at_step": "s09-click-post-transfer-input",
+    "step_intent": "Click \"POST TRANSFER\" (input)",
+    "expected": null,
+    "observed": null,
+    "url": "http://127.0.0.1:8600/xfer/review",
+    "screenshot": "screens/039-fail-APPROVAL_DENIED.png",
+    "dom_snapshot": "dom/039-fail-APPROVAL_DENIED.html",
+    "retryable": false
+  },
+  "recoveries": [],
+  "escalations": [
+    {
+      "intervention_id": "iv-cf192b6e",
+      "kind": "approval",
+      "reason": "irreversible step s09-click-post-transfer-input: 'POST TRANSFER'",
+      "at_step": "s09-click-post-transfer-input",
+      "resolution": "deny",
+      "operator": "supervisor-mlee",
+      "operator_actions": []
+    }
+  ],
+  "locators": [
+    {
+      "step_id": "s01-fill-text-field-next-to-user-id",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s02-fill-password-field-next-to-password",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s03-click-sign-on-input",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s04-click-funds-transfer-a",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s05-fill-text-field-next-to-from-mbr-sfx",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s06-fill-text-field-next-to-to-mbr-sfx",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s07-fill-text-field-next-to-amount",
+      "strategy": "label",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s08-click-review-input",
+      "strategy": "text",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    },
+    {
+      "step_id": "s09-click-post-transfer-input",
+      "strategy": "css",
+      "rank": 0,
+      "degraded": false,
+      "misses": []
+    }
+  ],
+  "human_assisted": true,
+  "duration_ms": 3024,
+  "evidence_dir": "evidence/14-replay-transfer-denied"
+}

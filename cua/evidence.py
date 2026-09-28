@@ -18,10 +18,19 @@ from typing import Any
 
 from cua.safety.redact import Redactor
 
+_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def portable(path: str) -> str:
+    """Repo-relative path when inside the project, so evidence is machine-independent."""
+    ap = os.path.abspath(path)
+    return os.path.relpath(ap, _ROOT) if ap.startswith(_ROOT + os.sep) else path
+
 
 class Evidence:
     def __init__(self, run_dir: str, redactor: Redactor, run_id: str):
         self.dir = run_dir
+        self.display_dir = portable(run_dir)
         self.redactor = redactor
         self.run_id = run_id
         self._seq = 0

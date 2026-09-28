@@ -23,6 +23,10 @@ ROOT = runtime.ROOT
 EVIDENCE = ROOT / "evidence"
 CAP_PATH = ROOT / "capabilities" / "member-savings-balance.json"
 GOAL = "Look up member 10492 and read their current primary savings balance"
+XFER_PATH = ROOT / "capabilities" / "funds-transfer.json"
+XFER_GOAL = ("Transfer 25.00 from account 10492-S01 to account 10492-D10, post it, "
+             "and return the confirmation number shown after posting")
+XFER_PARAMS = {"from_account": "10492-S01", "to_account": "10492-D10", "amount": "25.00"}
 
 
 def _scenario(name: str) -> str:
@@ -60,13 +64,14 @@ def run_demo(skip_discovery: bool = False, provider=None) -> list[dict]:
         cap = Capability.load(str(CAP_PATH))
         shutil.copy(CAP_PATH, EVIDENCE / "member-savings-balance.capability.json")
 
-        def replay(name, params, *, tenant=tenant_a, faults=None, operator="none", scripted=None, note=""):
+        def replay(name, params, *, tenant=tenant_a, faults=None, operator="none", scripted=None, note="",
+                   capability=None, count_transfers=False):
             print(f"\n== {name} ==")
             app.reset()
             app_b.reset()
             if faults:
                 (app_b if tenant == tenant_b else app).faults(**faults)
-            res = runtime.replay(capability=cap, params=params, tenant_path=tenant, base_url=None,
+            res = runtime.replay(capability=capability or cap, params=params, tenant_path=tenant, base_url=None,
                                  evidence_dir=_scenario(name), operator=operator, scripted=scripted,
                                  allow_draft=True, step_timeout_s=6)
             detail = res.outputs or (res.outcome and res.outcome.code) or (res.failure and f"{res.failure.code}: {res.failure.message}")
@@ -75,6 +80,8 @@ def run_demo(skip_discovery: bool = False, provider=None) -> list[dict]:
                 extras.append("recoveries=" + ",".join(r.code for r in res.recoveries))
             if res.escalations:
                 extras.append("escalations=" + ",".join(f"{e.kind}->{e.resolution}" for e in res.escalations))
+            if count_transfers:
+                extras.append(f"transfers_posted={len(app.transfers())}")
             degraded = [l.step_id for l in res.locators if l.degraded]
             if degraded:
                 extras.append("degraded_locators=" + ",".join(degraded))
@@ -115,6 +122,35 @@ def run_demo(skip_discovery: bool = False, provider=None) -> list[dict]:
         finally:
             os.remove(no_overlay)
 
+        # ------------------------------------ 3. irreversible flow under dual control
+        if not skip_discovery:
+            print("\n== 12 discovery: funds transfer (live LLM, human approval) ==")
+            app.reset()
+            approver = ScriptedOperator("", "supervisor-mlee", [],
+                                        ("approve", "Dual control: accounts and amount verified"), wait_s=900)
+            xcap, xsum = runtime.discover(
+                goal=XFER_GOAL, start_url=app.base_url + "/signon", params=XFER_PARAMS,
+                capability_id="funds-transfer", title="Internal funds transfer (dual control)",
+                out_path=str(XFER_PATH), evidence_dir=_scenario("12-discovery-transfer-dual-control"),
+                provider=provider, tenant_id="harbor-point-cu", operator="scripted", scripted=approver,
+            )
+            print(json.dumps(xsum, indent=2))
+            rows.append({"scenario": "12-discovery-transfer-dual-control", "status": xsum["status"],
+                         "detail": f"{xsum['llm_calls']} LLM calls, outputs={xsum['outputs']}, "
+                                   f"transfers_posted={len(app.transfers())}",
+                         "note": "live discovery of an irreversible flow: POST TRANSFER paused for a human approver"})
+        if XFER_PATH.exists():
+            xcap = Capability.load(str(XFER_PATH))
+            shutil.copy(XFER_PATH, EVIDENCE / "funds-transfer.capability.json")
+            ok = ScriptedOperator("", "supervisor-mlee", [], ("approve", "Dual control: verified"))
+            replay("13-replay-transfer-approved", XFER_PARAMS, capability=xcap, operator="scripted", scripted=ok,
+                   count_transfers=True, note="irreversible step approved by a human: posted exactly once")
+            no = ScriptedOperator("", "supervisor-mlee", [], ("deny", "Amount not authorised for this member"))
+            replay("14-replay-transfer-denied", XFER_PARAMS, capability=xcap, operator="scripted", scripted=no,
+                   count_transfers=True, note="approver denies: APPROVAL_DENIED, nothing posted")
+            replay("15-replay-transfer-no-approver", XFER_PARAMS, capability=xcap, count_transfers=True,
+                   note="no operator attached: fails closed (POLICY_BLOCKED), nothing posted")
+
     _write_index(rows)
     return rows
 
@@ -125,4 +161,8 @@ def _write_index(rows: list[dict]) -> None:
              "| Scenario | Status | Detail | What it shows |", "|---|---|---|---|"]
     for r in rows:
         lines.append(f"| `{r['scenario']}` | {r['status']} | {str(r['detail']).replace('|', '/')} | {r.get('note', '')} |")
+    lines += ["", "## Evidence portability", "",
+              "Paths inside `result.json` files are repository-relative, so the evidence does not depend on the",
+              "machine where it was captured. Credentials and operator-entered values appear only as placeholders",
+              "or redacted values; screenshots are PII-masked before they are written."]
     (EVIDENCE / "README.md").write_text("\n".join(lines) + "\n")

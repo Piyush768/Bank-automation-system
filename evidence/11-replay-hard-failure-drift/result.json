@@ -1,8 +1,8 @@
 {
-  "run_id": "replay-20260927T232108-7f6f",
+  "run_id": "replay-20260928T005722-20eb",
   "capability_id": "member-savings-balance",
   "capability_version": "1.0.0",
-  "capability_hash": "sha256:ef96155b68bf58cd",
+  "capability_hash": "sha256:7c41e37671905e32",
   "status": "failed",
   "outputs": {},
   "outcome": null,
@@ -91,6 +91,6 @@
     }
   ],
   "human_assisted": false,
-  "duration_ms": 9342,
-  "evidence_dir": "/home/claude/cua-bank-automation/evidence/11-replay-hard-failure-drift"
+  "duration_ms": 9159,
+  "evidence_dir": "evidence/11-replay-hard-failure-drift"
 }

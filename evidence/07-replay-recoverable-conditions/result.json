@@ -1,8 +1,8 @@
 {
-  "run_id": "replay-20260927T232033-3b7c",
+  "run_id": "replay-20260928T005647-f5ea",
   "capability_id": "member-savings-balance",
   "capability_version": "1.0.0",
-  "capability_hash": "sha256:ef96155b68bf58cd",
+  "capability_hash": "sha256:7c41e37671905e32",
   "status": "success",
   "outputs": {
     "primary_savings_balance": "14250.80"
@@ -123,6 +123,6 @@
     }
   ],
   "human_assisted": false,
-  "duration_ms": 13219,
-  "evidence_dir": "/home/claude/cua-bank-automation/evidence/07-replay-recoverable-conditions"
+  "duration_ms": 13238,
+  "evidence_dir": "evidence/07-replay-recoverable-conditions"
 }

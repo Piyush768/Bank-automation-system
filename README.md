@@ -185,7 +185,7 @@ Inject the unknown screen, then replay with a console attached:
 ```bash
 curl -X POST localhost:8600/_harness/faults -H 'content-type: application/json' -d '{"supervisor_once": true}'
 cua replay --capability capabilities/member-savings-balance.json --param member_id=10492 \
-  --tenant config/tenants/harbor-point.json --operator console --headed
+  --tenant config/tenants/harbor-point.json --operator console --headed --allow-draft
 ```
 
 When the run escalates, open http://127.0.0.1:8765. Then:

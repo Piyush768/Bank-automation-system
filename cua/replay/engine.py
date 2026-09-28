@@ -145,7 +145,8 @@ class ReplayEngine:
             self._fail("INPUT_INVALID", f"unexpected inputs: {sorted(extra)}")
         for s in cap.secrets:
             if not self._secrets.get(s.name):
-                self._fail("INPUT_INVALID", f"secret '{s.name}' not provided by the runtime secret store")
+                self._fail("INPUT_INVALID", f"secret '{s.name}' not provided by the runtime secret store "
+                           f"(for the mock app: copy .env.example to .env, which sets BANK_USERNAME/BANK_PASSWORD)")
 
     # ============================================================== execute
 

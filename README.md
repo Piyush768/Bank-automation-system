@@ -1,24 +1,104 @@
-# CUA — Computer-Use Automation System
+# Bank Automation System (CUA)
 
-**CUA stands for Computer-Use Automation.** This project implements a computer-use automation system for legacy banking UIs.
+**CUA stands for Computer-Use Automation.**
 
-An LLM operates a legacy back-office app **once** to reach a goal. That run is compiled into a typed, versioned, reviewable **capability artifact**. The artifact then **replays deterministically with no model in the loop**. Replay returns typed outputs, a business outcome, or a debuggable failure, and hands the live session to a human when it cannot safely continue.
+This project shows how an AI model can learn a workflow in a legacy banking interface once, save that workflow as a reusable capability, and then run it again deterministically **without an AI model making decisions during replay**.
 
+> **In simple terms:** the AI discovers the workflow once. The system saves it. Future runs follow the saved workflow.
+
+This project uses a **local mock banking application with synthetic data only**. It does not connect to a real bank.
+
+## What does it do?
+
+The example task is simple: **look up a member and return their primary savings balance.**
+
+The system works in three stages:
+
+```text
+Natural-language goal
+        |
+        v
+1. LLM Discovery
+   Observe -> Decide -> Act
+        |
+        v
+2. Capability Artifact
+   Typed + Versioned JSON
+        |
+        v
+3. Deterministic Replay
+   No LLM decisions
+        |
+        +--> Success + output
+        +--> Business outcome
+        +--> Recoverable condition
+        +--> Hard failure
+        +--> Human handoff
 ```
-goal ──► discovery (LLM: observe → decide → act) ──► artifact (JSON contract) ──► replay (no LLM)
-                                                                                    │
-                                     success(outputs) · business_outcome · failed · escalated → human
+
+### 1. Discovery
+
+An LLM operates the live banking UI. It observes the screen, decides what action to take, performs the action, and continues until the goal is complete.
+
+### 2. Capability
+
+A successful discovery run is converted into a structured JSON capability containing the inputs, outputs, ordered actions, UI locator strategies, checkpoints, safety rules, expected business outcomes, and version information.
+
+The example capability is `capabilities/member-savings-balance.json`.
+
+### 3. Replay
+
+The saved capability can be executed again with a different member ID. **Replay does not ask an LLM what to do.** It follows the reviewed capability deterministically and verifies that the UI reaches the expected states.
+
+### Example
+
+Input:
+
+```json
+{
+  "member_id": "10492"
+}
 ```
 
-- **Language / stack:** Python 3.11, Playwright (Chromium), Pydantic v2, FastAPI (mock app + operator console).
-- **LLM (discovery only):** Anthropic Claude, OpenAI, or Groq (open models), switchable. Replay never imports the LLM module.
-- **Target:** `mock_bank/`, *CoreLine Teller 4.2*, a deliberately hostile legacy app. It is table-based with no IDs, no `<label>`s, and no test IDs. Its search button is a `<span onclick>` with no button role, and table row order differs per member. It injects real runtime conditions and has a second tenant skin. All data is synthetic.
+Output:
 
-Design rationale is in [REPORT.md](REPORT.md). Evidence from runs is in [evidence/](evidence/).
+```json
+{
+  "status": "success",
+  "outputs": {
+    "primary_savings_balance": "14250.80"
+  }
+}
+```
 
----
+## Key features
 
-## Setup
+- Real LLM-driven observe -> decide -> act discovery
+- Typed and versioned capability artifacts
+- Deterministic replay without an LLM
+- Multiple UI locator strategies with safe fallbacks
+- Checkpoints that prevent incorrect results
+- Structured business outcomes, recoverable conditions, and hard failures
+- Human-in-the-loop escalation using the same live browser session
+- Safety allowlists and action-risk controls
+- Secret and sensitive-data redaction
+- Cross-tenant capability reuse
+- Screenshots and DOM evidence for debugging
+- Automated tests
+
+## Technology
+
+- **Python 3.11**
+- **Playwright + Chromium** for browser automation
+- **Pydantic v2** for typed contracts
+- **FastAPI** for the mock banking app and operator console
+- **Anthropic, OpenAI, or Groq** for discovery
+
+The LLM is used only during discovery. Deterministic replay does not require an LLM API key.
+
+Design rationale is in [REPORT.md](REPORT.md). Run evidence is in [evidence/](evidence/).
+
+## Quick start
 
 ```bash
 python3.11 -m venv .venv && source .venv/bin/activate
@@ -31,7 +111,7 @@ cp .env.example .env
 
 `.env` is git-ignored. Keys are read from the environment only and are also redacted from every log. `BANK_USERNAME` / `BANK_PASSWORD` in `.env` are the **fake** credentials of the local mock app. The model never sees them, only `{{secrets.username}}` / `{{secrets.password}}`.
 
-## Demo path (one command)
+## Run the demo
 
 ```bash
 cua demo
@@ -57,7 +137,7 @@ This starts two mock-app tenants (ports 8600/8601) and then:
 
 `evidence/README.md` is regenerated with the actual results. To re-run only the replays against an existing artifact, use `cua demo --skip-discovery`.
 
-## Step by step
+## Run each stage manually
 
 ```bash
 # 1. the target app (tenant a on :8600; `--tenant b --port 8601` for the second institution)
@@ -109,12 +189,12 @@ Automation re-verifies the expected screen before continuing.
 
 Fault-injection switches (mock app only; the agent's policy denies `/_harness`): `slow_ms`, `interstitial_once`, `expire_once`, `errors_remaining`, `supervisor_once`, `session_ttl_s`.
 
-## Running without live services
+## Tests and offline replay
 
 - **Replay needs no LLM key.** It is the production path.
 - **Tests run fully offline:** `pytest` (37 tests, about 2 min, real headless browser against the mock app). They use `ScriptedProvider`, a clearly-marked **test-only** stand-in for the model, so the discovery loop, compiler and replay can be tested deterministically. It is never used for `evidence/`: the demo refuses to write evidence with it, and anything it produces is stamped `provider: scripted-test`.
 
-## Layout
+## Project structure
 
 ```
 cua/

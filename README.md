@@ -1,4 +1,6 @@
-# Computer-Use Automation for legacy banking UIs
+# CUA — Computer-Use Automation System
+
+**CUA stands for Computer-Use Automation.** This project implements a computer-use automation system for legacy banking UIs.
 
 An LLM operates a legacy back-office app **once** to reach a goal. That run is compiled into a typed, versioned, reviewable **capability artifact**. The artifact then **replays deterministically with no model in the loop**. Replay returns typed outputs, a business outcome, or a debuggable failure, and hands the live session to a human when it cannot safely continue.
 

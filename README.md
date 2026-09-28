@@ -92,7 +92,7 @@ Output:
 - **Playwright + Chromium** for browser automation
 - **Pydantic v2** for typed contracts
 - **FastAPI** for the mock banking app and operator console
-- **Anthropic, OpenAI, or Groq** for discovery
+- **Anthropic** for discovery
 
 The LLM is used only during discovery. Deterministic replay does not require an LLM API key.
 
